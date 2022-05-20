@@ -6,17 +6,17 @@
       bookTemplate: '#template-book',
     },
     containerOf: {
-      bookList: '.book-list',
+      booksList: '.books-list',
     },
   };
 
   const templates = {
-    //bookList: Handlebars.compile(document.querySelector(select.templateOf.bookList).innerHTML),
     bookTemplate: Handlebars.compile(document.querySelector(select.templateOf.bookTemplate).innerHTML),
   };
 
-  const renderInBooks = function () {
+  function renderInBooks() {
     for (let book in dataSource.books) {
+
       const data = {
         name: dataSource.books[book].name,
         price: dataSource.books[book].price,
@@ -25,13 +25,11 @@
       };
 
       const generatedHTML = templates.bookTemplate(data);
-
       book = utils.createDOMFromHTML(generatedHTML);
-
-      const bookContainer = document.querySelector(select.containerOf.bookList);
+      
+      const bookContainer = document.querySelector(select.containerOf.booksList);
       bookContainer.appendChild(book);
     }
-  };
+  }
   renderInBooks();
-  console.log('renderInBooks: ', renderInBooks);
 }

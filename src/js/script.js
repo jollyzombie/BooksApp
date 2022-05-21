@@ -27,6 +27,10 @@
     thisBook.data = dataSource.books;
 
     for (let book of thisBook.data) {
+
+      book.ratingBgc = determineRatingBgc(book.rating);
+      book.ratingWidth = book.rating * 10;
+
       const generatedHTML = templates.bookTemplate(book);
       const element = utils.createDOMFromHTML(generatedHTML);
       const bookList = document.querySelector(select.listOf.booksList);
@@ -64,10 +68,7 @@
     thisBook.filter.addEventListener('click', function (event) {
       const filterInput = event.target;
 
-      if (filterInput.tagName == 'INPUT' &&
-          filterInput.type == 'checkbox' &&
-          filterInput.name == 'filter'
-          ) {
+      if (filterInput.tagName == 'INPUT' && filterInput.type == 'checkbox' && filterInput.name == 'filter') {
         if (filterInput.checked == true) {
           filters.push(filterInput.value);
         } else if (filters.includes(filterInput.value)) {
@@ -75,19 +76,17 @@
           filters.splice(indexOf, 1);
         }
       }
-     filterBooks();
+      filterBooks();
     });
-  }
+  };
 
-
-  const filterBooks = function(){
-    for(let book of dataSource.books){
-
+  const filterBooks = function () {
+    for (let book of dataSource.books) {
       const bookId = [];
       let shouldBeHidden = false;
 
-      for(let filter of filters) {
-        if(!book.details[filter]) {
+      for (let filter of filters) {
+        if (!book.details[filter]) {
           shouldBeHidden = true;
           bookId.push(book.id);
           break;
@@ -96,13 +95,31 @@
 
       const bookElem = document.querySelector('[data-id="' + book.id + '"]');
 
-      if(shouldBeHidden == true && !shouldBeHidden == false){
+      if (shouldBeHidden == true && !shouldBeHidden == false) {
         bookElem.classList.add('hidden');
-      }  else {
+      } else {
         bookElem.classList.remove('hidden');
       }
     }
   };
+
+  const determineRatingBgc = function (rating) {
+
+    if(rating < 6){
+      ratingBgc = 'linear-gradient(to bottom,  #fefcea 0%, #f1da36 100%)';
+    } else if(rating > 6 && rating <= 8){
+      ratingBgc = 'linear-gradient(to bottom, #b4df5b 0%,#b4df5b 100%)';
+
+    } else if (rating > 8 && rating <= 9){
+      ratingBgc = 'linear-gradient(to bottom, #299a0b 0%, #299a0b 100%)';
+
+    } else if(rating > 9){
+      ratingBgc = 'linear-gradient(to bottom, #ff0084 0%,#ff0084 100%)';
+    }
+    return ratingBgc;
+
+  };
   renderInBooks();
+  determineRatingBgc()
   initActions();
 }

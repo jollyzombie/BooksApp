@@ -65,7 +65,7 @@
         const cover = event.target.offsetParent;
 
         if (cover.classList.contains('book__image')) {
-            cover.classList.toggle('favorite');
+          cover.classList.toggle('favorite');
 
           const bookCoverId = cover.getAttribute('data-id');
 
@@ -81,7 +81,7 @@
         const filterInput = event.target;
 
         if (filterInput.tagName == 'INPUT' && filterInput.type == 'checkbox' && filterInput.name == 'filter') {
-          if (filterInput.checked == true) {
+          if (filterInput.checked) {
             filters.push(filterInput.value);
           } else if (filters.includes(filterInput.value)) {
             const indexOf = filters.indexOf(filterInput.value);
@@ -107,7 +107,7 @@
 
         thisBook.bookElem = document.querySelector('[data-id="' + book.id + '"]');
 
-        if (shouldBeHidden == true && !shouldBeHidden == false) {
+        if (shouldBeHidden) {
           thisBook.bookElem.classList.add('hidden');
         } else {
           thisBook.bookElem.classList.remove('hidden');
